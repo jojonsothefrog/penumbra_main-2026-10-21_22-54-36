@@ -5,7 +5,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityPipeline.Microsoft.CodeAnalysis.CSharp.Syntax;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerInteractions : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
