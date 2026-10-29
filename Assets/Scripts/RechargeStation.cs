@@ -46,17 +46,29 @@ public class RechargeStation : MonoBehaviour
                 else
                 {
                     interactionText.text =
-                        "Pressione E para recarregar";
+                        "Pressione E / A para recarregar";
                 }
             }
 
-            // Interação com E
-            if (Keyboard.current != null &&
-                Keyboard.current.eKey.wasPressedThisFrame)
+            // Interação com teclado ou controle Xbox
+            if (InteractionPressed())
             {
                 Recharge();
             }
         }
+    }
+
+    bool InteractionPressed()
+    {
+        bool keyboardPressed =
+            Keyboard.current != null &&
+            Keyboard.current.eKey.wasPressedThisFrame;
+
+        bool gamepadPressed =
+            Gamepad.current != null &&
+            Gamepad.current.buttonSouth.wasPressedThisFrame;
+
+        return keyboardPressed || gamepadPressed;
     }
 
     void Recharge()

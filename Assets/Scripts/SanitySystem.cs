@@ -82,6 +82,29 @@ public class SanitySystem : MonoBehaviour
         }
     }
 
+    public void TakeDamage(float amount)
+    {
+        if (hasLost)
+        {
+            return;
+        }
+
+        currentSanity -= amount;
+
+        currentSanity = Mathf.Clamp(
+            currentSanity,
+            0f,
+            maxSanity
+        );
+
+        UpdateSanityUI();
+
+        if (currentSanity <= 0f)
+        {
+            GameOver();
+        }
+    }
+
     void GameOver()
     {
         if (hasLost)

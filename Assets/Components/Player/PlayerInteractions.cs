@@ -8,16 +8,21 @@ public class PlayerInteractions : MonoBehaviour
 {
     public Rigidbody2D rb;
 
-    private Light2D Flash;
+    public Light2D Flash;
     public Camera mainCamera;
 
     public Vector2 moveInput;
     public Vector2 mousePosition;
     public Vector2 gamepadPosition;
 
-    private float moveSpeed = 7f;
+    public float moveSpeed = 7f;
 
     public bool flashOn = false;
+
+    public bool IsFlashlightOn
+    {
+        get { return flashOn && Flash != null && Flash.enabled; }
+    }
 
     [Header("Bateria da Lanterna")]
     public float maxBattery = 100f;

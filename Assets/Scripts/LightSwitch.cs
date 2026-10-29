@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 using TMPro;
 
 public class LightSwitch : MonoBehaviour
@@ -25,23 +26,25 @@ public class LightSwitch : MonoBehaviour
     void Update()
     {
         // Atualiza o tempo de espera
-        if (cooldownTimer > 0)
+        if (cooldownTimer > 0f)
         {
             cooldownTimer -= Time.deltaTime;
+            cooldownTimer = Mathf.Max(cooldownTimer, 0f);
         }
 
         // Se o jogador estiver próximo
         if (playerInRange)
         {
-            if (cooldownTimer <= 0)
+            if (cooldownTimer <= 0f)
             {
                 if (interactionText != null)
                 {
-                    interactionText.text = "Pressione E para interagir";
+                    interactionText.text =
+                        "Pressione E / A para interagir";
                 }
 
-                // Interação com a tecla E
-                if (Input.GetKeyDown(KeyCode.E))
+                // Interação com teclado ou controle Xbox
+                if (InteractionPressed())
                 {
                     ToggleLights();
                 }
@@ -51,17 +54,34 @@ public class LightSwitch : MonoBehaviour
                 if (interactionText != null)
                 {
                     interactionText.text =
-                        "Aguarde " + Mathf.Ceil(cooldownTimer) + "s";
+                        "Aguarde " +
+                        Mathf.CeilToInt(cooldownTimer) + "s";
                 }
             }
         }
+    }
+
+    bool InteractionPressed()
+    {
+        bool keyboardPressed =
+            Keyboard.current != null &&
+            Keyboard.current.eKey.wasPressedThisFrame;
+
+        bool gamepadPressed =
+            Gamepad.current != null &&
+            Gamepad.current.buttonSouth.wasPressedThisFrame;
+
+        return keyboardPressed || gamepadPressed;
     }
 
     void ToggleLights()
     {
         if (globalLight == null)
         {
-            Debug.LogWarning("A iluminação global não foi atribuída!");
+            Debug.LogWarning(
+                "A iluminação global não foi atribuída!"
+            );
+
             return;
         }
 
